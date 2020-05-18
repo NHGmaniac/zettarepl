@@ -116,3 +116,9 @@ class ZfsCliExceptionHandler:
             )
         ):
             raise RecoverableReplicationError(str(exc_val)) from None
+
+        if (
+            isinstance(exc_val, ExecException) and
+            re.search(r"cannot send .+: snapshot data/src@2018-10-01_01-00 does not exist", exc_val.stdout)
+        ):
+            raise RecoverableReplicationError(str(exc_val)) from None
